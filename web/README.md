@@ -28,3 +28,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 # unit tests
 $ yarn test
 ```
+
+## Development
+
+```bash
+# check code and fix with linter
+$ yarn lint
+```
