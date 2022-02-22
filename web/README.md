@@ -34,4 +34,10 @@ $ yarn test
 ```bash
 # check code and fix with linter
 $ yarn lint
+
+# check that files are formatted correctly
+$ yarn prettier --check .
+
+# format all files with prettier
+$ yarn prettier --write .
 ```
