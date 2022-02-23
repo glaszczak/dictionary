@@ -3,14 +3,37 @@
   <a href="https://pl.reactjs.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="320" height="170" alt="React Logo" /></a>
 </p>
 
+## Installation
+
+```bash
+# install dependencies for both api and web
+$ yarn
+```
+
+## Running the app
+
+```bash
+# start the docker container for MongoDB
+$ docker-compose up
+
+# run api in development mode
+$ yarn start:dev
+
+# run web in development mode
+$ yarn start
+```
+
+Runs the app in the development mode.\
+
+Open [http://localhost:8081](http://localhost:8081) to connect to MongoDB database.
+
+Open [http://localhost:3000](http://localhost:3000) to view application it in the browser.
+
 ## Development
 
 ```bash
-# check code with linter
+# check code and fix with linter
 $ yarn lint
-
-# check code with fix
-$ yarn lint:fix
 
 # check that files are formatted correctly
 $ yarn prettier --check .
