@@ -30,11 +30,6 @@ export class AppController {
     return this.userService.user(email);
   }
 
-  @Post('/user')
-  async createUser(@Body() user: CreateUserDto): Promise<User> {
-    return this.userService.create(user);
-  }
-
   @Put('/user/:id')
   async updateUser(
     @Param('id') id: string,

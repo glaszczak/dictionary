@@ -41,3 +41,26 @@ $ yarn prettier --check .
 # format all files with prettier
 $ yarn prettier --write .
 ```
+
+## Application
+
+### Authentication
+
+To register user send POST request on `http://localhost:9000/api/auth/register` with following body:
+
+```json
+{
+  "fullName" : "User Name",
+  "email": "user@example.com",
+  "password": "yourPassword"
+}
+```
+
+To login user and get JWT token send POST request on `http://localhost:9000/api/auth/login` with following body:
+
+```json
+{
+  "email": "user@example.com",
+  "password": "yourPassword"
+}
+```
