@@ -9,38 +9,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  private readonly fakeUsers = [
-    {
-      fullName: 'Example User',
-      email: 'example@email.com',
-      password: 'example',
-    },
-    {
-      fullName: 'John User',
-      email: 'john@email.com',
-      password: 'john',
-    },
-  ];
-
-  async addFakeUsers(): Promise<UserDocument[]> {
-    const users = this.fakeUsers.map(async (user) => {
-      const createdUser = new this.userModel(user);
-      return createdUser.save();
-    });
-
-    return Promise.all(users);
-  }
-
   async users(): Promise<UserDocument[]> {
-    const users = await this.userModel.find();
-
-    if (users.length === 0) {
-      await this.addFakeUsers();
-    }
-
-    const updatedUsers = await this.userModel.find();
-
-    return updatedUsers;
+    return this.userModel.find();
   }
 
   async user(email: string): Promise<UserDocument> {
