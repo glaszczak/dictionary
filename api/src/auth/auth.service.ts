@@ -1,24 +1,40 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import CreateUserDto from '../users/dto/create-user.dto';
 import { UserDetails } from '../users/user-details.interface';
 import AuthCredenialsDto from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '../users/role.enum';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnModuleInit {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
+  private readonly admin = {
+    fullName: process.env.ADMIN_USERNAME,
+    email: `${process.env.ADMIN_USERNAME}@example.com`,
+    password: process.env.ADMIN_PASSWORD,
+    role: Role.ADMIN,
+  };
+
+  async onModuleInit() {
+    const user = await this.usersService.findByEmail(this.admin.email);
+
+    if (!user) {
+      await this.register(this.admin);
+    }
+  }
+
   async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, 12);
   }
 
-  async register(user: Readonly<CreateUserDto>): Promise<UserDetails> {
-    const { fullName, email, password } = user;
+  async register(user: Readonly<CreateUserDto>): Promise<UserDocument> {
+    const { fullName, email, password, role } = user;
 
     const existingUser = await this.usersService.findByEmail(email);
 
@@ -27,10 +43,11 @@ export class AuthService {
 
     const hashedPassword = await this.hashPassword(password);
 
-    const newUser = await this.usersService.create({
+    return this.usersService.create({
       fullName,
       email,
       password: hashedPassword,
+      role
     });
 
     return this.usersService.getUserDetails(newUser);
