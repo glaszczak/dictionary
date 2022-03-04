@@ -4,19 +4,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/users.schema';
 import CreateUserDto from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserDetails } from './user-details.interface';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
-
-  getUserDetails(user: UserDocument): UserDetails {
-    return {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-    };
-  }
 
   async users(): Promise<UserDocument[]> {
     return this.userModel.find();
@@ -68,11 +59,11 @@ export class UsersService {
     return this.userModel.findOne({ email });
   }
 
-  async findById(id: string): Promise<UserDetails> {
+  async findById(id: string): Promise<UserDocument> {
     const user = await this.userModel.findById(id);
 
     if (!user) throw new NotFoundException(`User #${id} not found`);
 
-    return this.getUserDetails(user);
+    return user;
   }
 }

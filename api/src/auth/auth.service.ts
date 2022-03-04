@@ -2,9 +2,9 @@ import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import CreateUserDto from '../users/dto/create-user.dto';
-import { UserDetails } from '../users/user-details.interface';
 import AuthCredenialsDto from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UserDocument } from '../users/schemas/users.schema';
 import { Role } from '../users/role.enum';
 
 @Injectable()
@@ -49,8 +49,6 @@ export class AuthService implements OnModuleInit {
       password: hashedPassword,
       role
     });
-
-    return this.usersService.getUserDetails(newUser);
   }
 
   async login(
@@ -74,7 +72,7 @@ export class AuthService implements OnModuleInit {
     return bcrypt.compare(password, hashedPassword);
   }
 
-  async validateUser(email: string, password: string): Promise<UserDetails> {
+  async validateUser(email: string, password: string): Promise<UserDocument> {
     const user = await this.usersService.findByEmail(email);
 
     if (!user)
@@ -85,6 +83,6 @@ export class AuthService implements OnModuleInit {
     if (!isPasswordMatched)
       throw new NotFoundException(`Password is not matched`);
 
-    return this.usersService.getUserDetails(user);
+    return user;
   }
 }

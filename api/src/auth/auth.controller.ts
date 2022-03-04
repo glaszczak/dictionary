@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import CreateUserDto from '../users/dto/create-user.dto';
-import { UserDetails } from '../users/user-details.interface';
+import { UserDocument } from '../users/schemas/users.schema';
 import { AuthService } from './auth.service';
 import AuthCredenialsDto from './dto/auth-credentials.dto';
 
@@ -9,7 +9,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  register(@Body() user: CreateUserDto): Promise<UserDetails> {
+  register(@Body() user: CreateUserDto): Promise<UserDocument> {
     return this.authService.register(user);
   }
 
