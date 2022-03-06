@@ -34,6 +34,27 @@ services:
       - 8081:8081
     restart: unless-stopped
 
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    env_file: .env
+    volumes:
+      # '10-init.sql' => this makes sure that sql is executed after DB server is properly booted up.
+      - ./init.sql:/docker-entrypoint-initdb.d/10-init.sql
+      - .dbdata:/var/lib/postgresql
+
+  pgadmin:
+      image: dpage/pgadmin4
+      restart: always
+      environment: 
+          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      ports:
+        - 5050:80
+      depends_on: 
+          - postgres 
 volumes:
   mongodb-data:
     name: mongodb-data

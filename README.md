@@ -13,9 +13,28 @@ $ yarn
 ## Running the app
 
 ```bash
-# start the docker container for MongoDB
+# start the docker containers for MongoDB, PostgreSQL and pgAdmin
 $ docker-compose up
+```
 
+### Setup PostgreSQL database
+
+Open [http://localhost:5050/](http://localhost:5050/) to open the pgAdmin interface.
+
+- Enter username and password using environment variables: ${PGADMIN_DEFAULT_EMAIL} and ${PGADMIN_DEFAULT_PASSWORD}
+
+- Click on to Servers -> Create -> Server
+  - name: your-server-name
+
+- Go to Connection tab
+  - Host (to get Host use `$ ifconfig |grep inet` => do not use '127.0.0.1' but i.e. '192.168.1.126' instead.)
+  - Maintenence database: ${POSTGRES_DATABASE}
+  - Username: ${POSTGRES_USER}
+  - Password: ${POSTGRES_PASSWORD}
+
+### Start the server and the client
+
+```bash
 # run api in development mode
 $ yarn start:dev
 
@@ -23,11 +42,13 @@ $ yarn start:dev
 $ yarn start
 ```
 
-Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view application it in the browser.
+
+### MongoDB
+
+Runs the app in the development mode.
 
 Open [http://localhost:8081](http://localhost:8081) to connect to MongoDB database.
-
-Open [http://localhost:3000](http://localhost:3000) to view application it in the browser.
 
 ## Development
 
