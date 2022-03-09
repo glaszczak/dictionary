@@ -9,19 +9,19 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { UsersService } from './users/users.service';
-import { User } from './users/schemas/users.schema';
-import { UpdateUserDto } from './users/dto/update-user.dto';
+import { UserService } from './user/user.service';
+import { User } from './user/schemas/user.schema';
+import { UpdateUserDto } from './user/dto/update-user.dto';
 import { Roles } from './auth/decorators/roles.decorator';
 import { JwtGuard } from './auth/guards/jwt.guard';
-import { Role } from './users/role.enum';
+import { Role } from './user/role.enum';
 import { RolesGuard } from './auth/guards/roles.guard';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   @Roles(Role.ADMIN)

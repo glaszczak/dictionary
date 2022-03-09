@@ -27,7 +27,7 @@ export class WordEntity {
   audioUrl?: string;
 
   @Column({ type: 'jsonb', nullable: true })
-  meanings?: MeaningInterface;
+  meanings?: MeaningInterface[];
 
   @OneToMany(
     () => DictionaryEntity,

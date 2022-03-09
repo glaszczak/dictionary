@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
-import CreateUserDto from '../users/dto/create-user.dto';
+import CreateUserDto from '../user/dto/create-user.dto';
 import AuthCredenialsDto from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
-import { UserDocument } from '../users/schemas/users.schema';
-import { Role } from '../users/role.enum';
+import { UserDocument } from '../user/schemas/user.schema';
+import { Role } from '../user/role.enum';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
@@ -22,7 +22,7 @@ export class AuthService implements OnModuleInit {
   };
 
   async onModuleInit() {
-    const user = await this.usersService.findByEmail(this.admin.email);
+    const user = await this.userService.findByEmail(this.admin.email);
 
     if (!user) {
       await this.register(this.admin);
@@ -36,14 +36,14 @@ export class AuthService implements OnModuleInit {
   async register(user: Readonly<CreateUserDto>): Promise<UserDocument> {
     const { fullName, email, password, role } = user;
 
-    const existingUser = await this.usersService.findByEmail(email);
+    const existingUser = await this.userService.findByEmail(email);
 
     if (existingUser)
       throw new NotFoundException(`User with email ${email} already exist`);
 
     const hashedPassword = await this.hashPassword(password);
 
-    return this.usersService.create({
+    return this.userService.create({
       fullName,
       email,
       password: hashedPassword,
@@ -73,7 +73,7 @@ export class AuthService implements OnModuleInit {
   }
 
   async validateUser(email: string, password: string): Promise<UserDocument> {
-    const user = await this.usersService.findByEmail(email);
+    const user = await this.userService.findByEmail(email);
 
     if (!user)
       throw new NotFoundException(`User with email ${email} not exist`);

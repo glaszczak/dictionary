@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DictionaryEntity } from './entities/dictionary.entity';
@@ -40,14 +40,6 @@ export class DictionaryService {
 
   async dictionaries(userId: string): Promise<DictionaryEntity[]> {
     return this.dictionaryRepository.find({ userId });
-  }
-
-  async findOne(id: string) {
-    const dictionary = await this.dictionaryRepository.findOne(id);
-    if (!dictionary)
-      throw new HttpException('Dictionary not found', HttpStatus.NOT_FOUND);
-
-    return dictionary;
   }
 
   async hasUserWord(userId: string, wordId: string): Promise<boolean> {

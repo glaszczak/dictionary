@@ -3,7 +3,7 @@ export interface MeaningInterface {
   definitions: Definition[];
 }
 
-interface Definition {
+export interface Definition {
   definition: string;
   example?: string;
 }
