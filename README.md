@@ -85,3 +85,44 @@ To login user and get JWT token send POST request on `http://localhost:9000/api/
   "password": "yourPassword"
 }
 ```
+
+### Test API
+
+#### Register User
+
+- Send POST request on `http://localhost:9000/api/auth/register` with following body:
+
+```json
+{
+  "fullName" : "Example User",
+  "email": "example@example.com",
+  "password": "example"
+}
+```
+
+#### Login User
+
+- Send POST request on `http://localhost:9000/api/auth/login` with following body:
+
+```json
+{
+  "email": "example@example.com",
+  "password": "example"
+}
+```
+
+#### Create new word for user
+
+- Login with user credentials
+- Send POST request on `http://localhost:9000/api/dictionary/word` with following body:
+
+```json
+{
+  "word" : "example"
+}
+```
+
+#### Check all words for user
+
+- Login with user credentials
+- Send GET request on `http://localhost:9000/api/dictionary`
